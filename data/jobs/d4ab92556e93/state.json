@@ -1,0 +1,17 @@
+{
+  "id": "d4ab92556e93",
+  "filename": "output.pdf",
+  "kind": "pdf",
+  "input_path": "/home/ituser/book-ocr/data/jobs/d4ab92556e93/input.pdf",
+  "total_pages": 1,
+  "done_pages": 1,
+  "failed_pages": 0,
+  "status": "done",
+  "error": "",
+  "model": "qwen3.5:9b",
+  "prompt": "",
+  "dpi": 200,
+  "created_at": 1780004035.4913325,
+  "updated_at": 1780004072.820469,
+  "finished_at": 1780004072.8204672
+}

@@ -1,0 +1,17 @@
+{
+  "id": "d6de6c1090e5",
+  "filename": "RaraMendut.pdf",
+  "kind": "pdf",
+  "input_path": "/home/ituser/book-ocr/data/jobs/d6de6c1090e5/input.pdf",
+  "total_pages": 162,
+  "done_pages": 155,
+  "failed_pages": 7,
+  "status": "done",
+  "error": "",
+  "model": "qwen3.5:9b",
+  "prompt": "",
+  "dpi": 200,
+  "created_at": 1779976887.1748066,
+  "updated_at": 1779986977.9727437,
+  "finished_at": 1779986977.9727416
+}

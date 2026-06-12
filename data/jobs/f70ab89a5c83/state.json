@@ -1,0 +1,17 @@
+{
+  "id": "f70ab89a5c83",
+  "filename": "test_book.pdf",
+  "kind": "pdf",
+  "input_path": "/home/ituser/book-ocr/data/jobs/f70ab89a5c83/input.pdf",
+  "total_pages": 2,
+  "done_pages": 2,
+  "failed_pages": 0,
+  "status": "done",
+  "error": "",
+  "model": "qwen3.5:9b",
+  "prompt": "",
+  "dpi": 150,
+  "created_at": 1779975148.07519,
+  "updated_at": 1779975158.3407545,
+  "finished_at": 1779975158.3407524
+}

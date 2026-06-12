@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book OCR</title>
+    <link rel="stylesheet" href="/static/style.css?v=5" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">📖</span>
+        <h1>Book OCR</h1>
+      </div>
+      <div class="meta">
+        <button id="history-btn" class="btn btn--ghost btn--sm" type="button">
+          History
+        </button>
+        <span id="model-badge" class="badge">model: …</span>
+        <span id="health-badge" class="badge badge--muted">checking…</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel panel--input">
+        <h2>Scan / Upload</h2>
+
+        <div id="dropzone" class="dropzone">
+          <input
+            id="file-input"
+            type="file"
+            accept="image/*,application/pdf,.pdf"
+            hidden
+          />
+          <p class="dropzone__hint">
+            Drag &amp; drop PDF hasil scan atau gambar, atau
+            <button type="button" id="pick-btn" class="link">pilih file</button>
+          </p>
+          <p class="dropzone__sub">
+            Upload sekali, server kerjakan di background. Aman walau koneksi putus.
+          </p>
+        </div>
+
+        <div id="file-info" class="file-info" hidden>
+          <div class="file-info__icon" id="file-icon">📄</div>
+          <div class="file-info__meta">
+            <div id="file-name" class="file-info__name"></div>
+            <div id="file-sub" class="file-info__sub"></div>
+          </div>
+          <button id="clear-btn" class="btn btn--ghost" type="button">Hapus</button>
+        </div>
+
+        <div id="preview-wrap" class="preview" hidden>
+          <img id="preview" alt="preview" />
+        </div>
+
+        <div class="field">
+          <label for="model-select">Model</label>
+          <select id="model-select"></select>
+        </div>
+
+        <div class="field">
+          <label for="dpi-select">PDF render DPI</label>
+          <select id="dpi-select">
+            <option value="150">150 (cepat)</option>
+            <option value="200" selected>200 (default)</option>
+            <option value="250">250</option>
+            <option value="300">300 (kualitas tinggi)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="prompt">Prompt (opsional)</label>
+          <textarea
+            id="prompt"
+            rows="3"
+            placeholder="Biarkan kosong untuk pakai default OCR prompt…"
+          ></textarea>
+        </div>
+
+        <div class="upload-progress" id="upload-progress" hidden>
+          <div class="progress__bar">
+            <div id="upload-fill" class="progress__fill"></div>
+          </div>
+          <div id="upload-text" class="progress__text">Mengunggah…</div>
+        </div>
+
+        <button id="run-btn" class="btn btn--primary" disabled>
+          <span class="btn__label">Mulai OCR</span>
+          <span class="spinner" hidden></span>
+        </button>
+
+        <p id="status" class="status"></p>
+      </section>
+
+      <section class="panel panel--output">
+        <div class="panel__head">
+          <h2>Pekerjaan</h2>
+          <div class="actions">
+            <button id="refresh-jobs" class="btn btn--ghost" type="button">
+              Refresh
+            </button>
+          </div>
+        </div>
+
+        <div id="jobs-list" class="jobs"></div>
+
+        <div id="job-detail" class="job-detail" hidden>
+          <div class="job-detail__head">
+            <div>
+              <div id="detail-name" class="job-detail__name"></div>
+              <div id="detail-meta" class="job-detail__meta"></div>
+            </div>
+            <div class="actions">
+              <button id="cancel-btn" class="btn btn--ghost" type="button" hidden>
+                Batalkan
+              </button>
+              <button id="copy-btn" class="btn btn--ghost" type="button" disabled>
+                Salin
+              </button>
+              <button id="download-btn" class="btn btn--ghost" type="button" disabled>
+                Unduh .txt
+              </button>
+              <button id="epub-btn" class="btn btn--ghost" type="button" disabled>
+                Unduh .epub
+              </button>
+              <button id="delete-btn" class="btn btn--ghost" type="button">
+                Hapus
+              </button>
+            </div>
+          </div>
+
+          <div class="progress" id="progress-wrap">
+            <div class="progress__bar">
+              <div id="progress-fill" class="progress__fill"></div>
+            </div>
+            <div id="progress-text" class="progress__text"></div>
+          </div>
+
+          <p id="preview-notice" class="status" hidden>
+            Buku besar — preview hanya menampilkan halaman terbaru. Klik "Unduh .txt" atau ".epub" untuk mendapatkan seluruh isi.
+          </p>
+
+          <textarea
+            id="output"
+            class="output"
+            placeholder="Teks hasil OCR muncul di sini…"
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Powered by Ollama · port 8003</span>
+    </footer>
+
+    <div id="history-modal" class="modal" hidden>
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__panel">
+        <div class="modal__head">
+          <h2>History</h2>
+          <div class="modal__filters">
+            <button class="btn btn--sm filter-btn is-active" data-filter="all" type="button">Semua</button>
+            <button class="btn btn--sm filter-btn" data-filter="done" type="button">Selesai</button>
+            <button class="btn btn--sm filter-btn" data-filter="running" type="button">Aktif</button>
+            <button class="btn btn--sm filter-btn" data-filter="error" type="button">Gagal</button>
+          </div>
+          <button class="btn btn--ghost btn--sm" type="button" data-close>Tutup</button>
+        </div>
+        <div id="history-list" class="jobs"></div>
+      </div>
+    </div>
+
+    <script src="/static/app.js?v=5"></script>
+  </body>
+</html>

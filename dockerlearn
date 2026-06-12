@@ -1,0 +1,33 @@
+nano Dockerfile
+
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y tesseract-ocr && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY backend_book/ ./backend_book/
+COPY frontend_book/ ./frontend_book/
+COPY app.py .  # ini doang yang dipake
+
+EXPOSE 8003
+
+CMD ["python", "app.py"]
+
+nano .dockerignore
+venvbook/
+__pycache__/
+*.pyc
+app.log
+.git
+
+
+
+sudo docker build -t book-ocr:v2 .
+
+sudo docker run -d -p 8003:8003 --name bookocr-test book-ocr:v1
+

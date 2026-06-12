@@ -1,0 +1,5 @@
+venvbook/
+__pycache__/
+*.pyc
+app.log
+.git
