@@ -131,6 +131,22 @@ Bikin file docker-compose.yml di folder project:yamlservices:
     restart: unless-stoppedTerus update tinggal:bashdocker compose pull
 docker compose up -d
 
+es Alur Kerja CI/CD
+1. Bikin perubahan kecil di kode 
+Biar kerasa bedanya. Contoh: Buka index.html / app.py / file utama loTambah tulisan v1.1 - CI/CD Jalan di pojok webSave2. Push ke GitHubbashgit add .
+git commit -m "test: update v1.1"
+git push origin main3. Liatin robot kerja
+Buka github.com/febrygusalim/book-ocr → tab Actions
+Harusnya ada workflow baru warna kuning. Tunggu sampe ijo ✅ 
+Biasanya 1-3 menit. Sambil ngopi dulu.4. Tarik + jalanin di laptop
+Abis ijo, balik ke terminal:bashdocker compose pull
+docker compose up -d
+
+
+git pull origin main
+git push origin main
+git pull origin main --no-rebase
+
 
 
 
