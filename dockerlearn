@@ -31,3 +31,106 @@ sudo docker build -t book-ocr:v2 .
 
 sudo docker run -d -p 8003:8003 --name bookocr-test book-ocr:v1
 
+
+
+
+add repodi github
+git init
+git add .
+git commit -m "commit pertama book-ocr"
+git branch -M main
+git remote add origin https://github.com/username-lo/book-ocr.git
+git push -u origin main
+git remote remove origin
+create token
+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
+
+
+
+
+
+
+
+Gaskeun mas 🔥 Step 2.1 kelar! Repo GitHub udah ada isinya.
+
+Sekarang *Step 2.2: Kasih tau GitHub rahasia Docker Hub*  
+Biar nanti robot Actions bisa login ke Docker Hub buat upload imagenya.
+
+### *Step 2.2: Simpen username + password Docker Hub di GitHub Secrets*
+
+*1. Buka repo lo:* github.com/febrygusalim/book-ocr  
+Klik tab `Settings` → menu kiri pilih `Secrets and variables` → `Actions` → tombol hijau `New repository secret`
+
+*2. Bikin secret pertama: DOCKER_USERNAME*
+1. `Name`: ketik `DOCKER_USERNAME` huruf besar semua
+2. `Secret`: isi username Docker Hub lo. Contoh: `febrygusalim`
+3. Klik `Add secret`
+
+*3. Bikin secret kedua: DOCKER_PASSWORD* 
+Klik `New repository secret` lagi
+1. `Name`: ketik `DOCKER_PASSWORD` huruf besar semua  
+2. `Secret`: isi password Docker Hub lo
+3. Klik `Add secret`
+
+Udah? Sekarang GitHub udah nyimpen rahasianya. GitHub Actions bisa baca tapi orang lain nggak bisa liat.
+
+### *Step 2.3: Bikin file robotnya*
+Ini file yang nyuruh GitHub otomatis build Docker tiap push.
+
+*Cara paling gampang:* 
+1. Di repo GitHub lo, klik `Add file` → `Create new file`
+2. Namain: `.github/workflows/docker.yml` - titik + slash-nya penting
+3. Copy paste isi ini:
+name: Build & Push Docker Image
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Login ke Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build & Push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/book-ocr:latest
+4. Scroll bawah → `Commit changes` → `Commit new file`
+
+Abis commit, otomatis robotnya jalan. Cek tab `Actions` di repo lo. Harusnya ada workflow jalan.
+
+docker pull febrygusalim/book-ocr:latest
+docker run -d -p 8000:8000 --name book-ocr-test febrygusalim/book-ocr:latest
+
+docker pull febrygusalim/book-ocr:latest
+latest: Pulling from febrygusalim/book-ocr
+Digest: sha256:cd913da85f95d1e764f6a9e8eb02b7bfad3fe066fb1fd598861ae956327d5fe8
+Status: Image is up to date for febrygusalim/book-ocr:latest
+docker.io/febrygusalim/book-ocr:latest
+root@ebie-ThinkPad:/home/ebs/book-ocr# docker restart book-ocr-test
+book-ocr-test
+
+
+
+Bikin file docker-compose.yml di folder project:yamlservices:
+  book-ocr:
+    image: febrygusalim/book-ocr:latest
+    ports:
+      - "8000:8000"
+    restart: unless-stoppedTerus update tinggal:bashdocker compose pull
+docker compose up -d
+
+
+
+

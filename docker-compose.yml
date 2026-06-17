@@ -1,0 +1,6 @@
+services:
+  book-ocr:
+    image: febrygusalim/book-ocr:latest
+    ports:
+      - "8003:8003"
+    restart: unless-stopped
